@@ -24,6 +24,7 @@ app.use(cookieParser());
 
 const allowedOrigins = [
   "http://localhost:5173",
+  "https://lordland-management-system.onrender.com"
 ];
 
 app.use(
