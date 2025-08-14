@@ -155,7 +155,7 @@ async function run() {
 
     const courseDistributionCollection = client
       .db("academi_core")
-      .collection("course_distribution");
+      .collection("coures_distribution");
 
     const studentsCollection = client.db("academi_core").collection("students");
 
@@ -2269,12 +2269,16 @@ async function run() {
         const submissions = await subAssignmentsCollection
           .find({ assignmentId })
           .project({
-            _id: 1,
-            email: 1,
-            comments: 1,
-            path: 1,
-            uploadedAt: 1,
-          })
+          _id: 1,
+          email: 1,
+          comments: 1,
+          filename: 1,     
+          originalname: 1, 
+          size: 1,         
+          mimetype: 1,     
+          uploadedAt: 1,
+          firebaseUrl: 1,  
+        })
           .toArray();
 
         // Enrich with student name, photo, and submittedAt alias
@@ -4352,20 +4356,20 @@ app.post("/send-message", upload.single("file"), async (req, res) => {
         });
 
         // for production
-        // res.cookie("token", token, {
-        //   httpOnly: true,
-        //   secure: process.env.NODE_ENV === "production",
-        //   sameSite: "none",
-        //   maxAge: 7 * 24 * 60 * 60 * 1000,
-        // })
+        res.cookie("token", token, {
+          httpOnly: true,
+          secure: process.env.NODE_ENV === "production",
+          sameSite: "none",
+          maxAge: 7 * 24 * 60 * 60 * 1000,
+        })
         // for dev....
-        res
-          .cookie("token", token, {
-            httpOnly: true,
-            secure: process.env.NODE_ENV === "production" ? true : false,
-            sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
-            maxAge: 24 * 60 * 60 * 1000,
-          })
+        // res
+        //   .cookie("token", token, {
+        //     httpOnly: true,
+        //     secure: process.env.NODE_ENV === "production" ? true : false,
+        //     sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
+        //     maxAge: 24 * 60 * 60 * 1000,
+        //   })
 
           .send({ success: true });
       } catch (error) {
